@@ -654,8 +654,10 @@ static tsi_result ssl_ctx_load_verification_certs(SSL_CTX* context,
                                                   STACK_OF(X509_NAME) *
                                                       *root_name) {
   X509_STORE* cert_store = SSL_CTX_get_cert_store(context);
+#ifdef X509_V_FLAG_PARTIAL_CHAIN
   X509_STORE_set_flags(cert_store,
                        X509_V_FLAG_PARTIAL_CHAIN | X509_V_FLAG_TRUSTED_FIRST);
+#endif
   return x509_store_load_certs(cert_store, pem_roots, pem_roots_size,
                                root_name);
 }
